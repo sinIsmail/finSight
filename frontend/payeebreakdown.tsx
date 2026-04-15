@@ -40,7 +40,6 @@ function ActiveShape(props: {
       </text>
 
       {/* Active sector */}
-      {/* @ts-expect-error – recharts type */}
       <Sector
         cx={cx} cy={cy}
         innerRadius={innerRadius - 2}
@@ -52,7 +51,6 @@ function ActiveShape(props: {
         strokeWidth={1}
         opacity={1}
       />
-      {/* @ts-expect-error – recharts type */}
       <Sector
         cx={cx} cy={cy}
         innerRadius={outerRadius + 10}
@@ -182,7 +180,6 @@ export function PayeeBreakdown({ data }: PayeeBreakdownProps) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.3, duration: 0.5 }}
       >
-        {/* @ts-expect-error – recharts strict TS quirk */}
         <ResponsiveContainer width="100%" height={200}>
           <PieChart>
             <Pie
@@ -194,11 +191,10 @@ export function PayeeBreakdown({ data }: PayeeBreakdownProps) {
               paddingAngle={3}
               dataKey="value"
               activeIndex={activeIndex}
-              activeShape={ActiveShape}
+              activeShape={ActiveShape as any}
               onMouseEnter={(_, i) => setActiveIndex(i)}
             >
               {data.map((_, i) => (
-                /* @ts-expect-error */
                 <Cell
                   key={i}
                   fill={CHART_COLORS[i % CHART_COLORS.length]}

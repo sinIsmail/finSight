@@ -98,44 +98,48 @@ export function SpendingTrend({ data }: SpendingTrendProps) {
           <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
             <defs>
               <linearGradient id="spendGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stopColor="#00f5ff" stopOpacity={0.4} />
-                <stop offset="100%" stopColor="#00f5ff" stopOpacity={0.0} />
+                <stop offset="5%"   stopColor="var(--cyan)" stopOpacity={0.3} />
+                <stop offset="95%"  stopColor="var(--cyan)" stopOpacity={0} />
               </linearGradient>
             </defs>
 
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" vertical={false} />
 
             <XAxis
               dataKey="date"
               stroke="var(--text-muted)"
-              tick={{ fontSize: 11, fontFamily: 'var(--font-mono)', fill: 'var(--text-muted)' }}
+              tick={{ fontSize: 10, fontFamily: 'var(--font-mono)', fill: 'rgba(255,255,255,0.4)' }}
               axisLine={false}
               tickLine={false}
-              interval="preserveStartEnd"
+              dy={10}
             />
 
             <YAxis
               stroke="var(--text-muted)"
-              tick={{ fontSize: 11, fontFamily: 'var(--font-mono)', fill: 'var(--text-muted)' }}
+              tick={{ fontSize: 10, fontFamily: 'var(--font-mono)', fill: 'rgba(255,255,255,0.4)' }}
               tickFormatter={formatCurrencyShort}
               axisLine={false}
               tickLine={false}
-              width={55}
+              width={45}
             />
 
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip 
+              content={<CustomTooltip />} 
+              cursor={{ stroke: 'var(--cyan)', strokeWidth: 1, strokeDasharray: '4 4' }}
+            />
 
             <ReferenceLine
               y={avg}
               stroke="var(--amber)"
-              strokeDasharray="6 3"
+              strokeDasharray="4 4"
               strokeWidth={1}
               label={{
                 value: 'avg',
                 fill: 'var(--amber)',
-                fontSize: 10,
+                fontSize: 9,
                 fontFamily: 'var(--font-mono)',
-                position: 'right',
+                position: 'insideBottomRight',
+                offset: 5
               }}
             />
 
@@ -143,14 +147,16 @@ export function SpendingTrend({ data }: SpendingTrendProps) {
               type="monotone"
               dataKey="amount"
               stroke="var(--cyan)"
-              strokeWidth={2}
+              strokeWidth={3}
               fill="url(#spendGrad)"
+              // High performance / sleek animation
+              animationDuration={1500}
               dot={false}
               activeDot={{
-                r: 5,
+                r: 6,
                 fill: 'var(--cyan)',
                 stroke: 'var(--bg0)',
-                strokeWidth: 2,
+                strokeWidth: 3
               }}
             />
           </AreaChart>

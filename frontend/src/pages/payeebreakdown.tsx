@@ -70,45 +70,39 @@ function PayeeRow({ payee, color, rank, isActive, onHover }: {
 }) {
   return (
     <motion.div
-      whileHover={{ x: 4 }}
+      whileHover={{ scale: 1.01, x: 4 }}
       onHoverStart={() => onHover(rank)}
       onHoverEnd={() => onHover(null)}
       style={{
         display:       'flex',
         alignItems:    'center',
-        gap:           10,
-        padding:       '8px 0',
-        borderBottom:  '1px solid var(--border)',
+        gap:           12,
+        padding:       '10px 12px',
+        margin:        '2px -12px',
+        borderRadius:  '12px',
+        background:    isActive ? 'rgba(255,255,255,0.03)' : 'transparent',
+        border:        isActive ? '1px solid rgba(255,255,255,0.05)' : '1px solid transparent',
         cursor:        'pointer',
-        opacity:       isActive ? 1 : 0.7,
-        transition:    'opacity 150ms',
+        transition:    'all 200ms ease',
       }}
     >
-      {/* Rank */}
-      <span style={{
-        fontFamily: 'var(--font-mono)',
-        fontSize:   10,
-        color:      'var(--text-muted)',
-        width:      16,
-        textAlign:  'right',
-        flexShrink: 0,
+      {/* Rank Icon or Number */}
+      <div style={{
+        width: 22, height: 22, borderRadius: '50%', 
+        background: isActive ? color : 'var(--bg3)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 10, fontWeight: 700, fontFamily: 'var(--font-mono)',
+        color: isActive ? 'var(--bg0)' : 'var(--text-muted)',
+        flexShrink: 0
       }}>
         {rank + 1}
-      </span>
-
-      {/* Color dot */}
-      <div style={{
-        width:        8, height: 8,
-        borderRadius: '50%',
-        background:   color,
-        flexShrink:   0,
-        boxShadow:    `0 0 6px ${color}`,
-      }} />
+      </div>
 
       {/* Name */}
       <span style={{
         flex:       1,
         fontSize:   13,
+        fontWeight: isActive ? 600 : 400,
         overflow:   'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
@@ -117,30 +111,22 @@ function PayeeRow({ payee, color, rank, isActive, onHover }: {
         {payee.name}
       </span>
 
-      {/* Amount */}
-      <span style={{
-        fontFamily: 'var(--font-mono)',
-        fontSize:   13,
-        fontWeight: 600,
-        color:      color,
-        flexShrink: 0,
-      }}>
-        {formatCurrencyShort(payee.value)}
-      </span>
-
-      {/* Bar */}
-      <div style={{ width: 48, flexShrink: 0 }}>
-        <div style={{ height: 3, background: 'var(--bg4)', borderRadius: 9999 }}>
+      {/* Amount & Percentage Bar */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4, minWidth: 80 }}>
+        <span style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize:   13,
+          fontWeight: 700,
+          color:      isActive ? color : 'var(--text-primary)',
+        }}>
+          {formatCurrencyShort(payee.value)}
+        </span>
+        <div style={{ width: 60, height: 3, background: 'var(--bg4)', borderRadius: 4, overflow: 'hidden' }}>
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${payee.percentage}%` }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            style={{
-              height:       3,
-              background:   color,
-              borderRadius: 9999,
-              boxShadow:    `0 0 4px ${color}`,
-            }}
+            transition={{ duration: 0.8, ease: 'circOut' }}
+            style={{ height: '100%', background: color, boxShadow: isActive ? `0 0 8px ${color}` : 'none' }}
           />
         </div>
       </div>

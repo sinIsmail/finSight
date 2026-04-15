@@ -15,6 +15,30 @@ export interface ProcessedTransaction extends Transaction {
   isTrue: boolean; // not a self-transfer or top-up
 }
 
+// ─── AI Platform Types ───────────────────────────────────────────────────────
+
+export type Platform = 'gemini' | 'openrouter' | 'ollama';
+
+export interface PlatformInfo {
+  models: string[];
+  default: string;
+  label: string;
+  icon: string;
+}
+
+export interface ModelsResponse {
+  default_platform: Platform;
+  gemini: PlatformInfo;
+  openrouter: PlatformInfo;
+  ollama: PlatformInfo;
+}
+
+export interface AttemptLog {
+  model: string;
+  status: 'ok' | 'failed';
+  error?: string;
+}
+
 // ─── Chart Data Types ─────────────────────────────────────────────────────────
 
 export interface DailySpend {

@@ -72,3 +72,19 @@ export function formatAxisDate(dateStr: string): string {
     month: 'short',
   }).format(d);
 }
+
+// ─── Payee & Percentage Utilities ──────────────────────────────────────────────
+
+export function cleanPayeeName(description: string): string {
+  if (!description) return 'Unknown';
+  // Split by common separators and take the first meaningful part
+  const cleaned = description
+    .split(/[\s-–—_/|,]/)[0]
+    .trim()
+    .toUpperCase();
+  return cleaned || 'Unknown';
+}
+
+export function pct(value: number): string {
+  return `${value.toFixed(1)}%`;
+}

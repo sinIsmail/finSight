@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { TopNav } from './components/topnav';
 import { UploadZone } from './components/uploadzone';
 import { TransactionTable } from './components/Transactiontable';
@@ -21,9 +22,12 @@ export default function App() {
     loadingPct,
     hasData,
     fileName,
+    activePlatform,
+    activeModel,
     searchQuery,
     setSearchQuery,
     loadFile,
+    loadDummyData,
   } = useTransactionData();
 
   const [view, setView] = useState<ViewMode>('dashboard');
@@ -32,6 +36,7 @@ export default function App() {
     return (
       <UploadZone 
         onFile={loadFile} 
+        onDummyData={loadDummyData}
         isLoading={isLoading} 
         loadingMsg={loadingMsg} 
         loadingPct={loadingPct} 
@@ -48,6 +53,8 @@ export default function App() {
         setView={setView}
         fileName={fileName || ''}
         txCount={transactions.length}
+        activePlatform={activePlatform}
+        activeModel={activeModel}
         onReset={() => window.location.reload()}
       />
 
@@ -63,16 +70,31 @@ export default function App() {
         
         {/* DASHBOARD VIEW */}
         {view === 'dashboard' && hasData && (
-         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '24px' }}>
-            
-            {/* ✨ The KPI Cards are now sitting at the top of the dashboard */}
-            <KPICards stats={stats} /> 
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(12, 1fr)', 
+              gridAutoRows: 'min-content',
+              gap: '24px' 
+            }}
+          >
+            {/* Top Row: KPIs across full width */}
+            <div style={{ gridColumn: 'span 12' }}>
+              <KPICards stats={stats} />
+            </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: '24px' }}>
-              <PayeeBreakdown data={payees} />
+            {/* Middle Row: Trend chart takes more space, Payees take less */}
+            <div style={{ gridColumn: 'span 8' }}>
               <SpendingTrend data={dailySpend} />
             </div>
-          </div>
+            <div style={{ gridColumn: 'span 4' }}>
+              <PayeeBreakdown data={payees} />
+            </div>
+
+            {/* Bottom Row or Extra detail could go here */}
+          </motion.div>
         )}
 
         {/* TRANSACTIONS VIEW */}

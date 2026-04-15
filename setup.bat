@@ -56,15 +56,11 @@ echo ===================================================
 echo   Setup Complete! You are ready to go.
 echo ===================================================
 echo.
-echo To run the application:
+echo To run the application automatically:
 echo.
-echo 1. Start the Frontend:
-echo    cd frontend
-echo    npm run dev
+echo Just double-click the 'start.bat' file, or run:
+echo    .\start.bat
 echo.
-echo 2. Start the Backend:
-echo    cd backend
-echo    venv\Scripts\activate
-echo    uvicorn main:app --reload
+echo This will spin up both the Frontend and Backend servers simultaneously!
 echo ===================================================
 pause
