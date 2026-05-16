@@ -22,3 +22,17 @@ Create a file named `.env` in the `backend` folder (where `main.py` is located) 
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 OPENROUTER_API_KEY=your_openrouter_api_key_here
+3. Start the Application
+```
+Just double-click the start.bat file!
+This will open two separate command prompt windows, automatically starting both the FastAPI backend and the Vite/React frontend simultaneously.
+
+Using Local AI (Ollama)
+
+FinSight natively supports fully local, private data extraction using Ollama.
+
+If you want to use local models (like llama3.2, qwen2.5, or phi4) instead of cloud APIs:
+    Download and install Ollama.
+    Pull your desired model (e.g., run ollama run llama3.2 in your terminal).
+    Keep Ollama running in the background.
+    FinSight will automatically discover installed Ollama models on http://localhost:11434 and use them based on the internal fallback engine. No API keys are required for this method!
